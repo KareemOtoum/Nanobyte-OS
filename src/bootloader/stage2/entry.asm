@@ -1,8 +1,8 @@
 bits 16
 
-section _ENTRY class=CODE
+section .entry
 
-extern _cstart_
+; extern _cstart_
 global entry
 
 entry:
@@ -16,7 +16,7 @@ entry:
     ; expect boot drive in dl send as arg to cstart function
     xor dh, dh
     push dx
-    call _cstart_
+    ;call _cstart_
 
     cli
     hlt

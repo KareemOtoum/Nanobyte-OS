@@ -1,152 +1,37 @@
-Open Watcom Linker Version 2.0 beta Dec 18 2024 02:23:22 (64-bit)
-Copyright (c) 2002-2024 The Open Watcom Contributors. All Rights Reserved.
-Portions Copyright (c) 1985-2002 Sybase, Inc. All Rights Reserved.
-Created on:       25/01/04 13:51:35
-Executable Image: /root/OperatingSystem/build/stage2.bin
-creating a RAW Binary Image executable
 
+There are no discarded input sections
 
-                        +------------+
-                        |   Groups   |
-                        +------------+
+Memory Configuration
 
-Group                           Address              Size
-=====                           =======              ====
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
 
-DGROUP                          00001a76             00000186
+Linker script and memory map
 
+LOAD /root/nanobyte-os/build/stage2/asm/entry.obj
+                0x00000500                        phys = 0x500
+                0x00000500                        . = phys
 
+.entry          0x00000500       0x10
+                0x00000500                        __entry_start = .
+ *(.entry)
+ .entry         0x00000500       0x10 /root/nanobyte-os/build/stage2/asm/entry.obj
+                0x00000500                entry
 
-                        +--------------+
-                        |   Segments   |
-                        +--------------+
+.text           0x00000510        0x0
+                0x00000510                        __text_start = .
+ *(.text)
 
-Segment                Class          Group          Address         Size
-=======                =====          =====          =======         ====
+.data           0x00000510        0x0
+                0x00000510                        __data_start = .
+ *(.data)
 
-_ENTRY                 CODE           AUTO           00000000        00000013
-_TEXT                  CODE           AUTO           00000013        00001a63
-CONST                  DATA           DGROUP         00001a76        00000163
-CONST2                 DATA           DGROUP         00001bda        00000011
-_DATA                  DATA           DGROUP         00001bec        00000008
-_BSS                   BSS            DGROUP         00001bf4        00000008
+.rodata         0x00000510        0x0
+                0x00000510                        __rodata_start = .
+ *(.rodata)
 
-
-                        +----------------+
-                        |   Memory Map   |
-                        +----------------+
-
-* = unreferenced symbol
-+ = symbol only referenced locally
-
-Address        Symbol
-=======        ======
-
-Module: /root/OperatingSystem/build/stage2/asm/main.obj(main.asm)
-00000000       entry
-Module: /root/OperatingSystem/build/stage2/asm/x86.obj(x86.asm)
-00000013       __U4D
-0000003a       __U4M
-00000054       _x86_div64_32
-00000082       _x86_Video_WriteCharTeletype
-00000095       _x86_Disk_Reset
-000000aa       _x86_Disk_Read
-000000e1       _x86_Disk_GetDriveParams
-Module: /root/OperatingSystem/build/stage2/c/ctype.obj(ctype)
-00000125+      islower_
-00000163       toupper_
-Module: /root/OperatingSystem/build/stage2/c/disk.obj(disk)
-000001ab       DISK_Initialize_
-00000221+      DISK_LBA2CHS_
-000002d4       DISK_ReadSectors_
-Module: /root/OperatingSystem/build/stage2/c/fat.obj(fat)
-00000371+      FAT_ReadBootSector_
-000003a5+      FAT_ReadFat_
-000003e9       FAT_Initialize_
-0000062f+      FAT_ClusterToLba_
-00000685+      FAT_OpenEntry_
-0000084f+      FAT_NextCluster_
-000008d8       FAT_Read_
-00000c3c       FAT_ReadEntry_
-00000c95       FAT_Close_
-00000d0c+      FAT_FindFile_
-00000e46       FAT_Open_
-Module: /root/OperatingSystem/build/stage2/c/main.obj(main)
-00000fc0       _cstart_
-00001bf0+      _g_data
-Module: /root/OperatingSystem/build/stage2/c/memory.obj(memory)
-00001179       memcpy_
-000011ed       memset_
-0000124c       memcmp_
-Module: /root/OperatingSystem/build/stage2/c/stdio.obj(stdio)
-000012c5       putc_
-000012ec+      puts_
-00001323+      puts_f_
-00001360       _printf
-000015e3+      printf_number_
-00001857+      print_buffer_
-00001bda+      _g_HexChars
-Module: /root/OperatingSystem/build/stage2/c/string.obj(string)
-000018d3       strchr_
-0000192e+      strcpy_
-000019a2       strlen_
-Module: /root/OperatingSystem/build/stage2/c/utility.obj(utility)
-000019dd+      align_
-
-
-                        +---------------------+
-                        |   Module Segments   |
-                        +---------------------+
-
-! = 32-bit segment
-c = initialized communal data
-
-Module          Segment               Class           Address         Size
-======          =======               =====           =======         ====
-
-main.asm        _ENTRY                CODE           00000000         00000013
-x86.asm         _TEXT                 CODE           00000013         00000112
-ctype           _TEXT                 CODE           00000125         00000086
-                CONST                 DATA           00001a76         00000000
-                CONST2                DATA           00001bda         00000000
-                _DATA                 DATA           00001bec         00000000
-disk            _TEXT                 CODE           000001ab         000001c6
-                CONST                 DATA           00001a76         00000000
-                CONST2                DATA           00001bda         00000000
-                _DATA                 DATA           00001bec         00000000
-fat             _TEXT                 CODE           00000371         00000c4f
-                CONST                 DATA           00001a76         00000107
-                CONST2                DATA           00001bda         00000000
-                _DATA                 DATA           00001bec         00000004
-                _BSS                  BSS            00001bf4         00000008
-main            _TEXT                 CODE           00000fc0         000001b9
-                CONST                 DATA           00001b7e         00000058
-                CONST2                DATA           00001bda         00000000
-                _DATA                 DATA           00001bf0         00000004
-memory          _TEXT                 CODE           00001179         0000014c
-                CONST                 DATA           00001bd6         00000000
-                CONST2                DATA           00001bda         00000000
-                _DATA                 DATA           00001bf4         00000000
-stdio           _TEXT                 CODE           000012c5         0000060e
-                CONST                 DATA           00001bd6         00000003
-                CONST2                DATA           00001bda         00000011
-                _DATA                 DATA           00001bf4         00000000
-string          _TEXT                 CODE           000018d3         0000010a
-                CONST                 DATA           00001bda         00000000
-                CONST2                DATA           00001bec         00000000
-                _DATA                 DATA           00001bf4         00000000
-utility         _TEXT                 CODE           000019dd         00000099
-                CONST                 DATA           00001bda         00000000
-                CONST2                DATA           00001bec         00000000
-                _DATA                 DATA           00001bf4         00000000
-Warning! W1014: stack segment not found
-
-
-                        +-----------------------+
-                        |   Linker Statistics   |
-                        +-----------------------+
-
-Stack size:  0200 (512.)
-Memory size:  1bfc (7164.)
-Entry point address: 00000000
-Link time: 00:00.04
+.bss            0x00000510        0x0
+                0x00000510                        __bss_start = .
+ *(.bss)
+                0x00000510                        __end = .
+OUTPUT(/root/nanobyte-os/build/stage2.bin binary)
