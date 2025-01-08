@@ -15,6 +15,7 @@ Name             Origin             Length             Attributes
 Linker script and memory map
 
 LOAD /root/nanobyte-os/build/stage2/asm/entry.obj
+LOAD /root/nanobyte-os/build/stage2/asm/x86.obj
 LOAD /root/nanobyte-os/build/stage2/c/main.obj
 LOAD /root/nanobyte-os/build/stage2/c/stdio.obj
 LOAD /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a
@@ -27,73 +28,84 @@ LOAD /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a
  .entry         0x00000500       0xc1 /root/nanobyte-os/build/stage2/asm/entry.obj
                 0x00000500                entry
 
-.text           0x000005d0      0x8be
+.text           0x000005d0      0xb7e
                 0x000005d0                        __text_start = .
  *(.text)
- .text          0x000005d0       0x24 /root/nanobyte-os/build/stage2/c/main.obj
-                0x000005d0                start
- .text          0x000005f4      0x62e /root/nanobyte-os/build/stage2/c/stdio.obj
-                0x000005f4                putchr
-                0x00000623                putcolor
-                0x00000655                putc
-                0x00000730                clear_screen
-                0x0000077c                puts
-                0x000007ab                printf_unsigned
-                0x0000084f                printf_signed
-                0x00000878                printf
-                0x00000b89                print_buffer
- *fill*         0x00000c22        0xe 
- .text          0x00000c30      0x11a /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
-                0x00000c30                __udivdi3
- *fill*         0x00000d4a        0x6 
- .text          0x00000d50      0x13e /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
-                0x00000d50                __umoddi3
+ .text          0x000005d0       0x56 /root/nanobyte-os/build/stage2/asm/x86.obj
+                0x000005d0                x86_outb
+                0x000005db                x86_inb
+                0x000005e4                x86_realmode_putc
+ .text          0x00000626       0x7e /root/nanobyte-os/build/stage2/c/main.obj
+                0x00000626                puts_realmode
+                0x00000655                start
+ .text          0x000006a4      0x84b /root/nanobyte-os/build/stage2/c/stdio.obj
+                0x000006a4                putchr
+                0x000006d3                putcolor
+                0x00000705                getchr
+                0x00000727                getcolor
+                0x0000074c                set_cursor
+                0x000007bd                clear_screen
+                0x0000084b                scrollback
+                0x00000939                putc
+                0x00000a49                puts
+                0x00000a78                printf_unsigned
+                0x00000b1c                printf_signed
+                0x00000b45                printf
+                0x00000e56                print_buffer
+ *fill*         0x00000eef        0x1 
+ .text          0x00000ef0      0x11a /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+                0x00000ef0                __udivdi3
+ *fill*         0x0000100a        0x6 
+ .text          0x00001010      0x13e /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+                0x00001010                __umoddi3
 
-.data           0x00000e90        0x4
-                0x00000e90                        __data_start = .
+.data           0x00001150        0x4
+                0x00001150                        __data_start = .
  *(.data)
- .data          0x00000e90        0x0 /root/nanobyte-os/build/stage2/c/main.obj
- .data          0x00000e90        0x4 /root/nanobyte-os/build/stage2/c/stdio.obj
-                0x00000e90                g_ScreenBuffer
- .data          0x00000e94        0x0 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
- .data          0x00000e94        0x0 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+ .data          0x00001150        0x0 /root/nanobyte-os/build/stage2/c/main.obj
+ .data          0x00001150        0x4 /root/nanobyte-os/build/stage2/c/stdio.obj
+                0x00001150                g_ScreenBuffer
+ .data          0x00001154        0x0 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+ .data          0x00001154        0x0 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
-.rodata         0x00000e94       0xce
-                0x00000e94                        __rodata_start = .
+.rodata         0x00001154       0xf2
+                0x00001154                        __rodata_start = .
  *(.rodata)
- .rodata        0x00000e94       0x18 /root/nanobyte-os/build/stage2/c/main.obj
- .rodata        0x00000eac       0xb6 /root/nanobyte-os/build/stage2/c/stdio.obj
-                0x00000eac                SCREEN_WIDTH
-                0x00000eb0                SCREEN_HEIGHT
-                0x00000eb4                g_HexChars
+ .rodata        0x00001154       0x36 /root/nanobyte-os/build/stage2/c/main.obj
+ *fill*         0x0000118a        0x2 
+ .rodata        0x0000118c       0xba /root/nanobyte-os/build/stage2/c/stdio.obj
+                0x0000118c                SCREEN_WIDTH
+                0x00001190                SCREEN_HEIGHT
+                0x00001194                DEFAULT_COLOR
+                0x00001198                g_HexChars
 
-.eh_frame       0x00000f64       0xd8
- .eh_frame      0x00000f64       0x64 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
- .eh_frame      0x00000fc8       0x74 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+.eh_frame       0x00001248       0xd8
+ .eh_frame      0x00001248       0x64 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+ .eh_frame      0x000012ac       0x74 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
-.bss            0x0000103c        0x8
-                0x0000103c                        __bss_start = .
+.bss            0x00001320        0x8
+                0x00001320                        __bss_start = .
  *(.bss)
- .bss           0x0000103c        0x0 /root/nanobyte-os/build/stage2/c/main.obj
- .bss           0x0000103c        0x8 /root/nanobyte-os/build/stage2/c/stdio.obj
-                0x0000103c                g_ScreenX
-                0x00001040                g_ScreenY
- .bss           0x00001044        0x0 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
- .bss           0x00001044        0x0 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
-                0x00001044                        __end = .
+ .bss           0x00001320        0x0 /root/nanobyte-os/build/stage2/c/main.obj
+ .bss           0x00001320        0x8 /root/nanobyte-os/build/stage2/c/stdio.obj
+                0x00001320                g_ScreenX
+                0x00001324                g_ScreenY
+ .bss           0x00001328        0x0 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+ .bss           0x00001328        0x0 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+                0x00001328                        __end = .
 OUTPUT(/root/nanobyte-os/build/stage2.bin binary)
 
-.debug_info     0x00000000      0xb5f
- .debug_info    0x00000000       0xce /root/nanobyte-os/build/stage2/c/main.obj
- .debug_info    0x000000ce      0x406 /root/nanobyte-os/build/stage2/c/stdio.obj
- .debug_info    0x000004d4      0x33a /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
- .debug_info    0x0000080e      0x351 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+.debug_info     0x00000000      0xccf
+ .debug_info    0x00000000       0xf8 /root/nanobyte-os/build/stage2/c/main.obj
+ .debug_info    0x000000f8      0x54c /root/nanobyte-os/build/stage2/c/stdio.obj
+ .debug_info    0x00000644      0x33a /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+ .debug_info    0x0000097e      0x351 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
-.debug_abbrev   0x00000000      0x524
- .debug_abbrev  0x00000000       0xa7 /root/nanobyte-os/build/stage2/c/main.obj
- .debug_abbrev  0x000000a7      0x1b1 /root/nanobyte-os/build/stage2/c/stdio.obj
- .debug_abbrev  0x00000258      0x15b /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
- .debug_abbrev  0x000003b3      0x171 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+.debug_abbrev   0x00000000      0x582
+ .debug_abbrev  0x00000000       0xc0 /root/nanobyte-os/build/stage2/c/main.obj
+ .debug_abbrev  0x000000c0      0x1f6 /root/nanobyte-os/build/stage2/c/stdio.obj
+ .debug_abbrev  0x000002b6      0x15b /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+ .debug_abbrev  0x00000411      0x171 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
 .debug_aranges  0x00000000       0x80
  .debug_aranges
@@ -105,28 +117,28 @@ OUTPUT(/root/nanobyte-os/build/stage2.bin binary)
  .debug_aranges
                 0x00000060       0x20 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
-.debug_line     0x00000000      0x668
- .debug_line    0x00000000       0x58 /root/nanobyte-os/build/stage2/c/main.obj
- .debug_line    0x00000058      0x2b8 /root/nanobyte-os/build/stage2/c/stdio.obj
- .debug_line    0x00000310      0x180 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
- .debug_line    0x00000490      0x1d8 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+.debug_line     0x00000000      0x75c
+ .debug_line    0x00000000       0x72 /root/nanobyte-os/build/stage2/c/main.obj
+ .debug_line    0x00000072      0x392 /root/nanobyte-os/build/stage2/c/stdio.obj
+ .debug_line    0x00000404      0x180 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+ .debug_line    0x00000584      0x1d8 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
-.debug_str      0x00000000      0x70d
- .debug_str     0x00000000      0x101 /root/nanobyte-os/build/stage2/c/main.obj
- .debug_str     0x00000101      0x212 /root/nanobyte-os/build/stage2/c/stdio.obj
- .debug_str     0x00000313      0x1fd /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
- .debug_str     0x00000510      0x1fd /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+.debug_str      0x00000000      0x763
+ .debug_str     0x00000000      0x114 /root/nanobyte-os/build/stage2/c/main.obj
+ .debug_str     0x00000114      0x255 /root/nanobyte-os/build/stage2/c/stdio.obj
+ .debug_str     0x00000369      0x1fd /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+ .debug_str     0x00000566      0x1fd /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
 .debug_line_str
-                0x00000000      0x332
+                0x00000000      0x33e
  .debug_line_str
-                0x00000000       0xbf /root/nanobyte-os/build/stage2/c/main.obj
+                0x00000000       0xc5 /root/nanobyte-os/build/stage2/c/main.obj
  .debug_line_str
-                0x000000bf       0xc3 /root/nanobyte-os/build/stage2/c/stdio.obj
+                0x000000c5       0xc9 /root/nanobyte-os/build/stage2/c/stdio.obj
  .debug_line_str
-                0x00000182       0xd8 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
+                0x0000018e       0xd8 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
  .debug_line_str
-                0x0000025a       0xd8 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
+                0x00000266       0xd8 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
 .comment        0x00000000       0x4c
  .comment       0x00000000       0x13 /root/nanobyte-os/build/stage2/c/main.obj
@@ -134,9 +146,9 @@ OUTPUT(/root/nanobyte-os/build/stage2.bin binary)
  .comment       0x00000026       0x13 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_udivdi3.o)
  .comment       0x00000039       0x13 /root/nanobyte-os/toolchain/i686-elf/lib/gcc/i686-elf/14.2.0/libgcc.a(_umoddi3.o)
 
-.debug_frame    0x00000000      0x164
- .debug_frame   0x00000000       0x2c /root/nanobyte-os/build/stage2/c/main.obj
- .debug_frame   0x0000002c      0x138 /root/nanobyte-os/build/stage2/c/stdio.obj
+.debug_frame    0x00000000      0x204
+ .debug_frame   0x00000000       0x4c /root/nanobyte-os/build/stage2/c/main.obj
+ .debug_frame   0x0000004c      0x1b8 /root/nanobyte-os/build/stage2/c/stdio.obj
 
 .debug_loclists
                 0x00000000      0x978

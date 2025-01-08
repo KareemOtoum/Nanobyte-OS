@@ -1,14 +1,27 @@
 #include <stdint.h>
 #include "stdio.h"
+#include "x86.h"
 // #include "disk.h"
 // #include "fat.h"
 
 //void far* g_data = (void far*)0x00500200;
 
-void __attribute__((cdecl)) start(uint16_t bootDrive)
+void puts_realmode(const char* str)
 {
-    clear_screen();
-    printf("Hello world from stage2");
+    while(*str)
+    {
+        x86_realmode_putc(*str);
+        ++str;
+    }
+}
+
+void attr start(uint16_t bootDrive)
+{
+    printf("Hello world from stage2\n");
+    puts_realmode("hello world from real mode\r\n");
+    
+    printf("Hello world from stage2\n");
+    puts_realmode("hello world from real mode\r\n");
     for (;;);
     // DISK disk;
     // if (!DISK_Initialize(&disk, bootDrive))

@@ -4,8 +4,9 @@
         "*.ejs": "html",
         "stdarg.h": "c",
         "stdbool.h": "c",
-        "cstdint": "cpp",
+        "stdint.h": "c",
         "compare": "c",
         "*.inc": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

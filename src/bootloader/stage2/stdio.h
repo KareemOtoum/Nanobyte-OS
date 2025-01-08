@@ -1,6 +1,8 @@
 #pragma once
 #include <stdint.h>
 
+#define attr __attribute__((cdecl))
+
 void putc(char c);
 void puts(const char* str);
 void printf(const char* fmt, ...);
