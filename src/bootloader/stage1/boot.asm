@@ -369,7 +369,7 @@ file_stage2_bin:        db 'STAGE2  BIN'
 stage2_cluster:         dw 0
 
 KERNEL_LOAD_SEGMENT     equ 0x0
-KERNEL_LOAD_OFFSET      equ 500
+KERNEL_LOAD_OFFSET      equ 0x500
 
 
 times 510-($-$$) db 0

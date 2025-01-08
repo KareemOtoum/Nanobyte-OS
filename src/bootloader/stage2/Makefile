@@ -17,7 +17,7 @@ all: stage2
 stage2: $(BUILD_DIR)/stage2.bin
 
 $(BUILD_DIR)/stage2.bin: $(OBJECTS_ASM) $(OBJECTS_C)
-	$(TARGET_LD) $(TARGET_LINKFLAGS) -Wl,-Map=$(BUILD_DIR)/stage2.map -o $@ $^ 
+	$(TARGET_LD) $(TARGET_LINKFLAGS) -Wl,-Map=$(BUILD_DIR)/stage2.map -o $@ $^ $(TARGET_LIBS)
 
 $(BUILD_DIR)/stage2/c/%.obj: %.c always
 	$(TARGET_CC) $(TARGET_CFLAGS) -c -o $@ $<
